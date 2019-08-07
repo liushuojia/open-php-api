@@ -1,0 +1,11 @@
+/.idea
+.DS_Store
+._*
+*.log
+templates_c/
+templates_wav_c/
+cache/
+cache_wav
+/share
+/libs/scripts/logs/
+
