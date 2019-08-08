@@ -24,23 +24,12 @@ class CAdminUpdateApp extends ApiApp
 
 	function RunApp()
 	{
-        if( !$this->CheckToken() ){
-            //判断权限
-            $this -> showMsg( 404, "登录超时" );
-            return;
-        }
-        if( $this -> tokenUser -> admin_role !=1 ){
-            //只有管理员能访问
-            $this -> showMsg( 404, "您没有相应的权限,请与网站部联系" );
-            return;
-        }
-
         if(!$this -> CheckInput($ErrMsg)){
-            $this -> showMsg( 1, $ErrMsg);
+            $this -> showMsg( 406, $ErrMsg);
             return;
         }    
 
-        $this -> showMsg( 0, "更新");
+        $this -> showMsg( 200, "更新");
 		return;
 	}
 }

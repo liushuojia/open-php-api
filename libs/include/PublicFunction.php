@@ -84,7 +84,7 @@ function formatSecond($second)
 
 
 
-/**
+    /*
 		*function: CheckEmail 校验 Email
 		* @param: $email
 		* result: false 不合法; true合法

@@ -18,7 +18,11 @@ require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CGetTokenApp extends ApiApp
 {
-	public $HTTP_TOKEN;
+    // 不检查访问权限, 不检查token
+    public $checkRoleFlag = false;
+    public $checkTokenFlag = false;
+
+    public $HTTP_TOKEN;
 	public $HTTP_USER_AGENT;
 	public $mobile;
 	public $verify;

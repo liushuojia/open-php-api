@@ -46,7 +46,7 @@ $routeArray["weixin"] = array(
     'openid/success' => array(
         "GET" => "/weixin/get-openid-success.php",
     ),
-    'login-check/[#weixin_id]/[@uid]' => array(
+    'login-check/[#weixin_id]' => array(
         "GET" => "/weixin/login-status.php",
     ),
 

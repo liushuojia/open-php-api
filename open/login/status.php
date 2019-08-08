@@ -18,13 +18,10 @@ require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CCheckTokenApp extends ApiApp
 {
-	function RunApp()
-	{
-		if(!$this -> CheckToken()){
-			$this -> showMsg( 401, "登录超时" );
-			return;
-		}
+    public $checkRoleFlag = false;
 
+    function RunApp()
+	{
 		$returnArray = array(
             "login_flag" => $this -> tokenFlag
         );

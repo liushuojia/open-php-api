@@ -20,7 +20,9 @@ require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CLoginApp extends ApiApp
 {
-	public $DB = array(
+    public $checkRoleFlag = false;
+
+    public $DB = array(
         "login",
         "admin",
 	);
@@ -53,11 +55,6 @@ class CLoginApp extends ApiApp
 
 	function RunApp()
 	{
-		if(!$this -> CheckToken()){
-			$this -> showMsg( 401, "登录超时 #token" );
-			return;
-		}
-
         $RedisDB = new TRedisDB();
         if( !$RedisDB -> exists(redisWeixinLoginPrefix . $this -> token) ){
             $this -> showMsg( 401,"登录超时, 请您刷新页面, 重新扫码绑定账号 #redis" );

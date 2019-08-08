@@ -9,12 +9,15 @@
 	GET 或者重新定义路由,在$routeMatchData里面拿数据
 
 */
-
 require_once("../include/config.php");
 require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CGetOpenidApp extends ApiApp
 {
+    // 不检查访问权限, 不检查token
+    public $checkRoleFlag = false;
+    public $checkTokenFlag = false;
+
     public $getData = array();
     public function CheckInput(&$ErrMsg)
     {
@@ -124,7 +127,7 @@ class CGetOpenidApp extends ApiApp
 
 
                 }else{
-                    //未绑定后台账号需要重新绑定\
+                    //未绑定后台账号需要重新绑定
                     $this -> getData["check_msg"] = "微信未绑定账号,请您绑定账号";
                 }
 
@@ -139,7 +142,6 @@ class CGetOpenidApp extends ApiApp
                 }
 
                 $this -> mobileMsg( $this -> getData["check_msg"] );
-
                 break;
         }
 

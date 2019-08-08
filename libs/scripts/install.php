@@ -7,8 +7,6 @@
 
 include_once "scritpt-path.php";
 $DirArray = array(
-	"op/templates_c",
-	"op/cache",
 	"share",
 	"share/file",
 	"share/php",

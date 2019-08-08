@@ -46,17 +46,6 @@ class CAdminListApp extends ApiApp
 	);
 	function RunApp()
 	{
-		if( !$this -> CheckStatus() ){
-			//判断权限,这个页面的token必须是系统用户
-			$this -> showMsg( 404, "登录超时" );
-			return;
-		}
-		if( $this -> tokenUser -> admin_role !=1 ){
-			//只有管理员能访问
-			$this -> showMsg( 404, "您没有相应的权限,请与网站部联系" );
-			return;			
-		}
-
 		if(!$this -> CheckInput($ErrMsg)){
 			$this -> showMsg( 406, $ErrMsg );
 			return;

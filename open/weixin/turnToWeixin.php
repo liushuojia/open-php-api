@@ -15,6 +15,10 @@ require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CTurnToWeixinApp extends ApiApp
 {
+    // 不检查访问权限, 不检查token
+    public $checkRoleFlag = false;
+    public $checkTokenFlag = false;
+
     public $weixin_id;
     public $uid;
 	public function CheckInput(&$ErrMsg)

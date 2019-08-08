@@ -15,6 +15,9 @@ require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CLoginStatusApp extends ApiApp
 {
+    // 不检查访问权限, 不检查token
+    public $checkRoleFlag = false;
+    public $checkTokenFlag = false;
 
     public $weixin_id;
     public $uid;
@@ -27,9 +30,11 @@ class CLoginStatusApp extends ApiApp
         if( $this -> weixin_id<=0 )
             return false;
 
-        $this -> uid = trim($routeMatchData["params"]["uid"]);
-        if( $this -> uid=="" )
+        if( !$this -> CheckToken() ){
             return false;
+        }
+
+        $this -> uid = $this -> token;
 
         return true;
     }
@@ -40,12 +45,11 @@ class CLoginStatusApp extends ApiApp
 
     function RunApp()
     {
+
         if ( !$this -> CheckInput($ErrMsg) ) {
             $this -> showMsg( 401, $ErrMsg);
             return;
         }
-
-
 
         $RedisDB = new TRedisDB();
         if( !$RedisDB -> exists(redisWeixinLoginPrefix . $this -> uid) ){

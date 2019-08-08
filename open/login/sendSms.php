@@ -18,7 +18,9 @@ require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CSendSmsApp extends ApiApp
 {
-	public $DB = array(
+    public $checkRoleFlag = false;
+
+    public $DB = array(
 		"admin",
 	);
 	public function CheckInput(&$ErrMsg)
@@ -38,10 +40,6 @@ class CSendSmsApp extends ApiApp
 
 	function RunApp()
 	{
-		if(!$this -> CheckToken()){
-			$this -> showMsg( 401, "登录超时" );
-			return;
-		}
 
 		if(!$this -> CheckInput($ErrMsg)){
 			$this -> showMsg( 406,$ErrMsg );

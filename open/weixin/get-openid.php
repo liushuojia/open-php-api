@@ -16,6 +16,10 @@ require_once( LIB_PATH . "/include/TWeixinAction.class.php");
 
 class CGetOpenidApp extends ApiApp
 {
+    // 不检查访问权限, 不检查token
+    public $checkRoleFlag = false;
+    public $checkTokenFlag = false;
+
     public function GetHttpsCurl($url){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HEADER, 0);
