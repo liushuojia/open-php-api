@@ -44,14 +44,16 @@ class CAdminListUpdateApp extends ApiApp
 
 		//更新的内容
 		if( $postArray["editObj"]["is_delete"]=="1" ){
-			$this -> editArray["is_delete"] = 1;
+            $this -> editArray["is_delete"] = 1;
+            $this -> editArray["stop_date"] = time();
 		}else{
 			$this -> editArray["is_delete"] = 0;
 			if( $postArray["editObj"]["admin_status"]=="1" ){
 				$this -> editArray["admin_status"] = 1;
 			}elseif( $postArray["editObj"]["admin_status"]=="0" ){
 				$this -> editArray["admin_status"] = 0;
-			}else{
+                $this -> editArray["stop_date"] = time();
+            }else{
 				return false;
 			}
 		}

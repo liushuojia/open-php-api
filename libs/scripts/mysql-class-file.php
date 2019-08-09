@@ -299,10 +299,14 @@
 								$write_in_file .= "\n		\$objData -> " . $key . "_show = nl2br( \$objData -> " . $key . ");";
 								break;
 							case "int":
-								if( substr($key, -1 * strlen("time"))=="time" ){
+								if( substr($key, -1 * strlen("_time"))=="_time" ){
 									$write_in_file .= "\n		\$objData -> " . $key . "_show = date( \"Y-m-d H:i:s\", \$objData -> " . $key . ");";
 									$write_in_file .= "\n		\$objData -> " . $key . "_list_show = date( \"Y.m.d H:i\", \$objData -> " . $key . ");";
 								}
+								if( substr($key, -1 * strlen("_date"))=="_date" ){
+									$write_in_file .= "\n		\$objData -> " . $key . "_show = date( \"Y-m-d\", \$objData -> " . $key . ");";
+								}
+
 								break;
 						}
 					}

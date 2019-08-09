@@ -40,6 +40,10 @@ function query_string(&$sqlString,$searchKey,$dataObj){
 		$sqlString .= " and admin_id in (" . $dataObj -> realEscapeString( implode(",", $searchKey["admin_id_array"]) ) . ")";
 	}
 
+    if( isset($searchKey["not_admin_id"]) && is_numeric($searchKey["not_admin_id"]) && $searchKey["not_admin_id"]>0 ){
+        $sqlString .= " and admin_id != '" . $searchKey["not_admin_id"] . "'";
+    }
+
 	return;
 }
 

@@ -32,7 +32,7 @@ class CAdminCreateApp extends ApiApp
                     }
 
                     if( !CheckMobile($value) ) {
-                        $ErrMsg = '请您正确输入邮件格式';
+                        $ErrMsg = '请您正确输入手机号码';
                         return false;
                     }
                     $this -> postArray[ $key ] = $value;
@@ -44,13 +44,13 @@ class CAdminCreateApp extends ApiApp
                     }
 
                     if( !CheckEmail($value) ){
-                        $ErrMsg = '请您正确输入手机号码';
+                        $ErrMsg = '请您正确输入邮箱';
                         return false;
                     }
 
                     $this -> postArray[ $key ] = $value;
                     break;
-                case 'entry_time':
+                case 'entry_date':
                     if( $value=='' ){
                         $ErrMsg = '请您选择入职日期';
                         return false;

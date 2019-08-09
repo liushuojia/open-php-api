@@ -19,7 +19,10 @@ class CAdminOneApp extends ApiApp
 	{
 		$ErrMsg = "参数传递错误";
 		Global $routeMatchData;
-		$this -> admin_id = $routeMatchData["params"]["admin_id"];
+		$this -> admin_id = (int) ($routeMatchData["params"]["admin_id"]);
+
+		if( $this -> admin_id<=0 )
+		    return false;
 
 		return true;
 	}
@@ -30,14 +33,18 @@ class CAdminOneApp extends ApiApp
 			$this -> showMsg( 406, $ErrMsg);
 			return;
 		}
-		
-		$array = array(
-		    "id" => $this -> admin_id,
-            "name" => "刘硕嘉",
-            "mobile" => "13725588389",
-		);
 
-		$this -> showMsg( 200, $array );
+        if( !$this -> adminDB -> SelectOneData($admin, array(
+            "admin_id" => $this -> admin_id,
+        )) ) {
+            $this -> showMsg( 404, "查无该账户信息" );
+            $this -> TCloseMysql();
+            return;
+        }
+
+		$this -> showMsg( 200, "OK", array(
+		    "admin" => $admin,
+        ) );
 		return;
 	}
 }
