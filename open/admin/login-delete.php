@@ -10,7 +10,7 @@
 require_once("../include/config.php");
 require_once( OPEN_PATH . "/include/apiApp.class.php");
 
-class CAdminDeleteApp extends ApiApp
+class CLoginDeleteApp extends ApiApp
 {
     public $admin_id;
     public function CheckInput(&$ErrMsg)
@@ -22,10 +22,14 @@ class CAdminDeleteApp extends ApiApp
         if( $this -> admin_id<=0 )
             return false;
 
+        $this -> login_id = (int) ($routeMatchData["params"]["login_id"]);
+        if( $this -> login_id<=0 )
+            return false;
+
         return true;
     }
     public $DB = array(
-        "admin",
+        "login",
     );
 
 	function RunApp()
@@ -35,22 +39,20 @@ class CAdminDeleteApp extends ApiApp
             return;
         }
 
-        if( !$this -> adminDB -> UpdateDataQuickEditMore(array(
-            "is_delete" => 1,
-        ), array(
-            'admin_id' => $this -> admin_id,
+        if( !$this -> loginDB -> DeleteData(array(
+            "admin_id" => $this -> admin_id,
+            "login_id" => $this -> login_id,
         )) ){
-            $this -> showMsg( 422, "更新数据失败,请与网站管理员联系" );
+            $this -> showMsg( 422, "删除失败,请与网站管理员联系" );
             $this -> TCloseMysql();
             return;
         }
 
-
-        $this -> showMsg( 200, "删除成功");
+        $this -> showMsg( 204, "删除成功");
 		return;
 	}
 }
 
-$App = new CAdminDeleteApp;
+$App = new CLoginDeleteApp;
 $App -> RunApp();
 return;

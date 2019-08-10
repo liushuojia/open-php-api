@@ -494,35 +494,7 @@ class CDatabaseDB{
 		return TRUE;
 	}
 
-/*
-	public function GetNumDataSql(&$totalNum,$sqlString){
-		$totalNum = 0;
-
-		$sqlString = "explain select count(`".$this -> primaryKey."`) from " . $this -> table_lr_string . $this -> tableName .  $this -> table_lr_string . " where 1=1 ". $sqlString;
-
-
-		$writeString = "\n";
-		$writeString .= "\n" . date("Y-m-d H:i:s");
-		$writeString .= "\n" . $sqlString;
-		$this -> writeFile($writeString, $this -> logFile);
-
-		$Result = $this -> MysqlConn -> query($sqlString);
-		if(!$Result)
-			return FALSE;
-
-		$index = 0;
-		$Row = $Result -> fetch_array();
-		$Result -> close();
-
-		if(!$Row)
-			return FALSE;
-
-		$totalNum = (int)($Row["rows"]);
-
-		return TRUE;
-	}
-*/
-	//旧的获取总数, 不删除
+	//获取总数, 不删除
 	public function GetNumDataSql(&$totalNum,$sqlString){
 		$totalNum = 0;
 		$editDataArray = $this -> editDataArray;

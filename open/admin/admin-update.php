@@ -65,12 +65,17 @@ class CAdminUpdateApp extends ApiApp
                     break;
                 case "entry_date":
                 case "update_time":
-                case "stop_date":
-
-                    if( $val=="" )
+                   if( $val=="" )
                         return false;
 
                     $this -> editArray[$key] = strtotime($val);
+                    break;
+                case "stop_date":
+                    if( $val=="" ){
+                        $this -> editArray[$key] = 0;
+                    }else{
+                        $this -> editArray[$key] = strtotime($val);
+                    }
                     break;
                 case "admin_role":
                 case "is_delete":
@@ -129,7 +134,7 @@ class CAdminUpdateApp extends ApiApp
             }
         }
 
-
+        $this -> editArray["update_time"] = time();
         if( !$this -> adminDB -> UpdateDataQuickEditMore($this -> editArray, array(
             'admin_id' => $this -> admin_id,
         )) ){

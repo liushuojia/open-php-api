@@ -76,6 +76,7 @@ class CAdminListUpdateApp extends ApiApp
 			return ;
 		}
 
+        $this -> editArray["update_time"] = time();
 		$this -> adminDB -> UpdateDataQuickEditMore($this -> editArray, array(
 			"admin_id_array" => $this -> admin_id_array,
 		));

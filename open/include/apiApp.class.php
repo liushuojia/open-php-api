@@ -52,7 +52,8 @@ class ApiApp  extends ShowApp {
 
 		$obj = new convert(32);
 		$UID = $obj->idToString($data["id"]) . "-" . $this -> BuildToken( $data );
-		return $UID;
+
+        return $UID;
 	}
 
 	//后台需要用户已经登录的token,使用的方法
@@ -153,13 +154,14 @@ class ApiApp  extends ShowApp {
 					$this -> tokenUser = array_to_object($this -> tokenUser);
 				}
 
-				$data = array(
+                $data = array(
 					"userAgent" => $HTTP_USER_AGENT,
 					"time" => $obj -> stringToId($tmp[1]),
 				);
-				$UID = $this -> BuildTokenAdmin( $this -> tokenUser, $data );
 
-				$this -> tokenFlag = ($UID===$HTTP_TOKEN);
+                $UID = $this -> BuildTokenAdmin( $this -> tokenUser, $data );
+
+                $this -> tokenFlag = ($UID===$HTTP_TOKEN);
 				return $this -> tokenFlag; 
 				break;
 			default:
@@ -300,11 +302,10 @@ class ApiApp  extends ShowApp {
                 $lastPath .= $tmp[$i];
             }
 
-			foreach( $routeController as $key => $val ){
+            foreach( $routeController as $key => $val ){
 				if( $key=="" ){
 					continue;
 				}
-
                 preg_match_all( "/\[[:|@|#]([a-z|A-Z|_]+)\]/", $key,$path_match_key );
 				if( count($path_match_key[1])>0 ){
 
@@ -312,9 +313,9 @@ class ApiApp  extends ShowApp {
                     $key = preg_replace("/\[#[a-z|A-Z|_]+\]/", "([0-9]+)", $key);
                     $key = preg_replace("/\[@[a-z|A-Z|_]+\]/", "([a-z|A-Z|0-9|_|-]+)", $key);
 
-
                     $key = str_replace("/", "\/", $key);
                     $key = '/^' . $key . '$/';
+
 
                     if( preg_match($key, $lastPath, $path_match) ){
                         if( array_key_exists( $REQUEST_METHOD, $val) ){

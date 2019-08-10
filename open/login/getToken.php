@@ -40,7 +40,8 @@ class CGetTokenApp extends ApiApp
 				return false;
 			}
 			if( $this -> verify=="" ){
-				return false;
+                $ErrMsg = "校验密钥为空";
+                return false;
 			}
 		}
 

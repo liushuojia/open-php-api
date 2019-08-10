@@ -84,8 +84,14 @@ $routeArray["admin"] = array(
 		"DELETE" => "/admin/admin-delete.php",
 	),
 
+    //删除登录的openid绑定
+    '[#admin_id]/[#login_id]' => array(
+        "DELETE" => "/admin/login-delete.php",
+    ),
 
-	//更多非标的url
+
+
+    //更多非标的url
 	'[:str]/dd/[#id]' => array(
 		"GET" => "/admin/admin-one.php",
 	),
@@ -94,7 +100,7 @@ $routeArray["admin"] = array(
 		"GET" => "/admin/admin-one.php",
 	),
     'abc/dd/ee' => array(
-        "GET" => "/admin//admin-one.php",
+        "GET" => "/admin/admin-one.php",
     ),
 
 );

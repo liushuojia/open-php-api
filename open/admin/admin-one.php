@@ -26,6 +26,11 @@ class CAdminOneApp extends ApiApp
 
 		return true;
 	}
+    public $DB = array(
+        "admin",
+        "login",
+        "weixin_account",
+    );
 
 	function RunApp()
 	{
@@ -42,8 +47,23 @@ class CAdminOneApp extends ApiApp
             return;
         }
 
-		$this -> showMsg( 200, "OK", array(
-		    "admin" => $admin,
+        $weixinArray = array();
+        $this -> weixin_accountDB -> QueryData($weixinAccountList,0,0);
+        foreach( $weixinAccountList as $key => $weixinAccount ){
+            $weixinArray[ $weixinAccount -> weixin_id ] = $weixinAccount -> weixin_title;
+        }
+
+        $this -> loginDB -> QueryData($loginList, 0, 0, array(
+            "admin_id" => $this -> admin_id,
+        ) );
+
+        foreach ( $loginList as $key => &$loginData ) {
+            $loginData -> weixin_title = $weixinArray[ $loginData -> weixin_id ];
+        }
+
+        $this -> showMsg( 200, "OK", array(
+            "admin" => $admin,
+            "loginArray" => $loginList,
         ) );
 		return;
 	}

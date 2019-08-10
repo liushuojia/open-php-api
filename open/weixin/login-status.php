@@ -53,7 +53,7 @@ class CLoginStatusApp extends ApiApp
 
         $RedisDB = new TRedisDB();
         if( !$RedisDB -> exists(redisWeixinLoginPrefix . $this -> uid) ){
-            $loginObj =  $array = array(
+            $loginObj = $array = array(
                 "uid" => $this -> uid,
                 "open_id" => "",
                 "create_time" => time(),
@@ -64,6 +64,11 @@ class CLoginStatusApp extends ApiApp
             $loginObj = $RedisDB -> set(redisWeixinLoginPrefix . $this -> uid, $loginObj, 1*60*60);
         }else{
             $loginObj = $RedisDB -> get(redisWeixinLoginPrefix . $this -> uid);
+
+            if( $loginObj["userAgent"] != trim($_SERVER["HTTP_USER_AGENT"]) ) {
+                $loginObj["userAgent"] = trim($_SERVER["HTTP_USER_AGENT"]);
+                $loginObj = $RedisDB -> set(redisWeixinLoginPrefix . $this -> uid, $loginObj, 1*60*60);
+            }
         }
 
         $this -> showMsg( 200,$loginObj["msg"], array("wx_status" => $loginObj) );
