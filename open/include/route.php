@@ -31,24 +31,30 @@ $routeArray = array();
  * 微信目录 weixin
  */
 $routeArray["weixin"] = array(
-    'login/[#weixin_id]/[@uid]' => array(
-        "GET" => "/weixin/turnToWeixin.php",
-    ),
 
     /*
      * 这里的修改需要去调整对应的页面
      * turnToWeixin.php     里面的获取微信OPENID的跳转页面
      * get-openid.php       里面的处理成功页面
      */
+    'login/[#weixin_id]/[@uid]' => array(
+        "GET" => "/login-weixin/turnToWeixin.php",
+    ),
     'getOpenid/[#weixin_id]/[@uid]' => array(
-        "GET" => "/weixin/get-openid.php",
+        "GET" => "/login-weixin/get-openid.php",
     ),
     'openid/success' => array(
-        "GET" => "/weixin/get-openid-success.php",
+        "GET" => "/login-weixin/get-openid-success.php",
     ),
     'login-check/[#weixin_id]' => array(
-        "GET" => "/weixin/login-status.php",
+        "GET" => "/login-weixin/login-status.php",
     ),
+
+    /*
+     * 微信后台管理
+     */
+
+
 
 );
 
@@ -89,18 +95,29 @@ $routeArray["admin"] = array(
         "DELETE" => "/admin/login-delete.php",
     ),
 
+);
 
+// 分类所属
+$routeArray["system-area-type"] = array(
+    '' => array(
+        "GET" => "/system-area/system-area-type-list.php",
+        "POST" => "/system-area/system-area-type-create.php",
+    ),
+    '[#type_id]' => array(
+        "PUT" => "/system-area/system-area-type-update.php",
+        "DELETE" => "/system-area/system-area-type-delete.php",
+    ),
+);
 
-    //更多非标的url
-	'[:str]/dd/[#id]' => array(
-		"GET" => "/admin/admin-one.php",
-	),
-
-	'[:str]-[:abc]' => array(
-		"GET" => "/admin/admin-one.php",
-	),
-    'abc/dd/ee' => array(
-        "GET" => "/admin/admin-one.php",
+// 分类管理
+$routeArray["system-area"] = array(
+    '' => array(
+        "GET" => "/system-area/system-area-list.php",
+        "POST" => "/system-area/system-area-create.php",
+    ),
+    '[#id]' => array(
+        "PUT" => "/system-area/system-area-update.php",
+        "DELETE" => "/system-area/system-area-delete.php",
     ),
 
 );

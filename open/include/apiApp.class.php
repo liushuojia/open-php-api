@@ -173,6 +173,18 @@ class ApiApp  extends ShowApp {
 		return true;
 	}
 
+	function clearAdminRedis( $admin_id ){
+        $admin_id = (int)($admin_id);
+        if( $admin_id<=0 )
+            return;
+
+        $RedisDB = new TRedisDB();
+        $redisAdminKey = redisAdminPrefix . $admin_id;
+        $RedisDB -> delete( $redisAdminKey );
+        return;
+    }
+
+
 	function SendSms( $mobile, $smscode, &$ErrorMsg="" ){
 		$queueKey = redisSmsQueue;
 		$checkKey = redisSmsCheckKey . "_" . $mobile;
@@ -342,13 +354,14 @@ class ApiApp  extends ShowApp {
 		if( $filePath == "" || !file_exists($filePath) ){
 
 			if( LandTuDebug ){
-				print_r($REQUEST_METHOD . " : " . $PATH_INFO);
-                print_r("\n");
+				$errorMsg = ($REQUEST_METHOD . " : " . $PATH_INFO);
+                $errorMsg .= ("\n<BR>");
                 if( $filePath == "" ) {
-                    print_r("没有匹配的路由, 请先添加路由 ") ;
+                    $errorMsg .= ("没有匹配的路由, 请先添加路由 ") ;
                 }else{
-                    print_r("匹配到了路由, 但是路由文件未创建, 路由文件地址: ". $filePath) ;
+                    $errorMsg .= ("匹配到了路由, 但是路由文件未创建, 路由文件地址: ". $filePath) ;
                 }
+                $this -> errorAjax($errorMsg);
 				return;
 			}else{
 				$this -> notFound();

@@ -81,7 +81,11 @@ class CAdminListUpdateApp extends ApiApp
 			"admin_id_array" => $this -> admin_id_array,
 		));
 
-		$this -> showMsg( 200, "更新数据成功");
+        foreach ($this -> admin_id_array as $admin_id) {
+            $this -> clearAdminRedis($admin_id);
+        }
+
+        $this -> showMsg( 200, "更新数据成功");
 		return;
 	}
 }

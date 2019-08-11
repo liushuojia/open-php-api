@@ -142,6 +142,7 @@ class CAdminUpdateApp extends ApiApp
             $this -> TCloseMysql();
             return;
         }
+        $this -> clearAdminRedis($this -> admin_id);
 
         $this -> showMsg( 200, "更新成功");
 		return;
