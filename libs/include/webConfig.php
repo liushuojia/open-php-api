@@ -38,13 +38,9 @@ define("SMARTY_LIB",OPENLIB_PATH . "/Smarty-3.1.14/libs");
 # smarty cache 时间
 if( LandTuDebug!=1 )
 {
-	define("SmartyCacheTimeList",24*60*60);			//列表页面cache时间
-	define("login_ext_time", 24*60*60);				//登录的验证有效期 30min
-	define("api_get_ext_time", 24*60*60);			//登录后验证有效期 60min
+	define("redis_ext_time", 24*60*60);
 }else{
-	define("SmartyCacheTimeList",60*60);			//列表页面cache时间
-	define("login_ext_time", 30*60);				//登录的验证有效期 30min
-	define("api_get_ext_time", 1*60*60);			//登录后验证有效期 60min
+	define("redis_ext_time", 30*60);
 }
 
 if( LandTuDebug==1 )
@@ -153,10 +149,13 @@ define("redisPasswd", "liushuojia");						# 发送短信的接口地址
 require_once(LIB_PATH."/include/redis.class.php");
 
 
+#systemAreaCodeLength
+define("systemAreaCodeLength",4);
+
 #redis 异步存储的队列key
 
 //邮件
-define("redisMailQueue","MailQueue");
+define("redisMailQueue","MailQueue");   //发送队列
 
 //短信
 define("redisSmsQueue","SmsQueue");	    //发送队列
@@ -166,4 +165,9 @@ define("redisSmsCheckKey","SmsCheck");	//验证码验证key
 define("redisWeixinQueue","WeixinQueue");   //微信发送信息队列
 define("redisAdminPrefix","admin_id_");     //用户数据前缀
 define("redisWeixinLoginPrefix","wx_login_");     //用户微信登录前缀
+
+//分类类型
+define("redisSystemAreaType","system_area_type");
+//分类
+define("redisSystemArea","system_area");
 

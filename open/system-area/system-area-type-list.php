@@ -29,6 +29,10 @@ class CSystemAreaTypeListApp extends ApiApp
 		if( isset($_GET["is_delete"]) && is_numeric($_GET["is_delete"]))
 			$this -> searchArray["is_delete"] = (int)($_GET["is_delete"]);
 
+		if( is_array($_GET["order_by"]) && count($_GET["order_by"])>0){
+            $this -> searchArray["order_by"] = ($_GET["order_by"]);
+        }
+
 		$this -> page_id = (int)($_GET["page_id"]);
 		$this -> one_page_num = (int)($_GET["one_page_num"]);
 
@@ -57,6 +61,7 @@ class CSystemAreaTypeListApp extends ApiApp
 		}
 
 		$searchArray = $this -> searchArray;
+        $searchArray['order_by'] = array('weight' => 'desc');
 
 		$StartPos = ($this -> page_id - 1) * $this -> one_page_num;
 		$Num = $this -> one_page_num;

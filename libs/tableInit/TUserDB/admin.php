@@ -1,8 +1,8 @@
 <?php
 
+//
 namespace TUserDB\admin;
 //空间命名必须是数据库名称
-
 function init_data($obj){
 
 	if( strlen($obj -> admin_id)<6 )

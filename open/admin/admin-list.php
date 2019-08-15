@@ -29,7 +29,11 @@ class CAdminListApp extends ApiApp
 		if( isset($_GET["is_delete"]) && is_numeric($_GET["is_delete"]))
 			$this -> searchArray["is_delete"] = (int)($_GET["is_delete"]);
 
-		$this -> page_id = (int)($_GET["page_id"]);
+        if( is_array($_GET["order_by"]) && count($_GET["order_by"])>0){
+            $this -> searchArray["order_by"] = ($_GET["order_by"]);
+        }
+
+        $this -> page_id = (int)($_GET["page_id"]);
 		$this -> one_page_num = (int)($_GET["one_page_num"]);
 
 		if( $this -> page_id<1 )

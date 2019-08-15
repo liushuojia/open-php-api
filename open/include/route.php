@@ -103,6 +103,11 @@ $routeArray["system-area-type"] = array(
         "GET" => "/system-area/system-area-type-list.php",
         "POST" => "/system-area/system-area-type-create.php",
     ),
+    'cache' => array(
+        //数据缓存, 提供获取缓存数据及删除缓存
+        "GET" => "/system-area/system-area-type-list-cache.php",
+        "DELETE" => "/system-area/system-area-type-list-cache-delete.php",
+    ),
     '[#type_id]' => array(
         "PUT" => "/system-area/system-area-type-update.php",
         "DELETE" => "/system-area/system-area-type-delete.php",
@@ -115,10 +120,21 @@ $routeArray["system-area"] = array(
         "GET" => "/system-area/system-area-list.php",
         "POST" => "/system-area/system-area-create.php",
     ),
+    'sort' => array(
+        "PUT" => "/system-area/system-area-list-sort-update.php",
+    ),
+
+    'cache' => array(
+        "DELETE" => "/system-area/system-area-list-cache-delete.php",
+    ),
+    'cache/[#type_id]' => array(
+        "GET" => "/system-area/system-area-list-cache.php",
+        "DELETE" => "/system-area/system-area-list-cache-delete.php",
+    ),
+
     '[#id]' => array(
         "PUT" => "/system-area/system-area-update.php",
         "DELETE" => "/system-area/system-area-delete.php",
     ),
-
 );
 

@@ -148,7 +148,7 @@ class ApiApp  extends ShowApp {
 					))) {
 						return false;
 					}
-					$RedisDB -> set($redisAdminKey,$this -> tokenUser,60*60*2);
+					$RedisDB -> set($redisAdminKey,$this -> tokenUser,redis_ext_time);
 				}else{
 					//redis出来的是数组, 需要转换成对象
 					$this -> tokenUser = array_to_object($this -> tokenUser);

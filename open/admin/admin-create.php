@@ -17,10 +17,8 @@ class CAdminCreateApp extends ApiApp
 	public function CheckInput(&$ErrMsg)
 	{
 		$ErrMsg = "参数传递错误";
-		Global $path_match;
 
 		$postArray = $this -> GetBody();
-
 		foreach ( $postArray as $key => $value){
 
             $value = trim($value);
