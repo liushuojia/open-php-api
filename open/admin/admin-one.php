@@ -70,5 +70,5 @@ class CAdminOneApp extends ApiApp
 }
 
 $App = new CAdminOneApp();
-$App -> RunApp($path_match);
+$App -> RunApp();
 return;

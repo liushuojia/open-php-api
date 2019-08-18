@@ -109,7 +109,6 @@ class CSystemAreaListApp extends ApiApp
                 $tempArray = [];
                 foreach ($SystemAreaList as $SystemArea)
                 {
-                    $SystemArea -> level_show = (int)( strlen($SystemArea -> area_code) / 4 ) . "级";
                     if( !is_array($tempArray[$SystemArea -> area_type]) ){
                         $tempArray[$SystemArea -> area_type] = array();
                     }

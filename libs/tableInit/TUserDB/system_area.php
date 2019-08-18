@@ -14,8 +14,9 @@ function init_data($obj){
 			$obj -> status_show = "停用";
 		}
 	}
+    $obj -> level_show = (int)( strlen($obj -> area_code) / 4 ) . "级";
 
-	return;
+    return;
 }
 
 

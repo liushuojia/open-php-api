@@ -132,7 +132,8 @@ $routeArray["system-area"] = array(
         "DELETE" => "/system-area/system-area-list-cache-delete.php",
     ),
 
-    '[#id]' => array(
+    '[#area_id]' => array(
+        "GET" => "/system-area/system-area-one.php",
         "PUT" => "/system-area/system-area-update.php",
         "DELETE" => "/system-area/system-area-delete.php",
     ),
