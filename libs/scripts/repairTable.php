@@ -2,12 +2,6 @@
 
 	include_once "scritpt-path.php";
 
-
-	$DataBase = array(
-		THILOYDB,
-		THILOYSQLDB,
-	);
-
 	foreach( $DataBase as $MysqlDB )
 	{
 		echo "\n";

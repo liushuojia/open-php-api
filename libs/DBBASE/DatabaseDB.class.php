@@ -20,11 +20,24 @@
 class emptyDatabaseObj{}
 class CDatabaseDB{
 	function __construct(){
-		//动态增加函数
+
+        Global $MysqlDefine;
+        $this -> dataConfig($MysqlDefine);
+
+        //动态增加函数
 		$this -> initDatabase();
 
 		return;
 	}
+
+	function dataConfig( $MysqlDefine ) {
+        $this -> MysqlHost = $MysqlDefine["MysqlHost"];
+        $this -> MysqlEditHost = $MysqlDefine["MysqlEditHost"];
+        $this -> MysqlUser = $MysqlDefine["MysqlUser"];
+        $this -> MysqlPasswd = $MysqlDefine["MysqlPasswd"];
+        $this -> MysqlDB = $MysqlDefine["MysqlDatabase"];
+	    return;
+    }
 
 	// 各个类重构
 	function initDatabase(){}
@@ -32,7 +45,11 @@ class CDatabaseDB{
 	#
 	#	链接数据库
 	#
-	private $MysqlHost = MysqlHost,$MysqlUser = MysqlUser,$MysqlPasswd = MysqlPasswd,$MysqlDB = MAINDBData, $MysqlEditHost = MysqlEditHost;
+    public $MysqlHost,
+        $MysqlUser,
+        $MysqlPasswd,
+        $MysqlDB,
+        $MysqlEditHost;
 	private $logFile = SHARE_PATH . "/logs/sql.log";
 	public $table_lr_string = "`",$errorString = "";
 	public $MysqlEidtConn = null;
@@ -525,7 +542,7 @@ class CDatabaseDB{
 		$string .= "\nexplain " . $sqlString;
 
 		#查看sql执行的效率
-		if( LandTuDebug == 1 ){
+		if( DebugFlag == 1 ){
 
 			$sqlStringTmp = "explain  " . $sqlString;
 			$Result = $this -> MysqlConn -> query($sqlStringTmp);

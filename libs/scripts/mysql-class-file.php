@@ -7,14 +7,24 @@
 
 	include_once "scritpt-path.php";
 
+    $DataBase = array();
+	foreach( $workPath as $pathName ) {
+	    $databaseFile =  HOME . "/" . $pathName . "/include/database.php";
+        if(is_file($databaseFile)){
+            include $databaseFile;
+            $DataBase[ $MysqlDefine["MysqlDatabase"] ] = $MysqlDefine;
+        }
+    }
+
+
+
 	echo "\n";
 	echo "rm old dir ";
-	foreach( $DATABASEARRAY as $DatabaseName ) {
+	foreach( $DataBase as $DatabaseName => $val ) {
 		//清理原文件夹 清理缓存文件
 		echo $DatabaseName . " ";
 		shell_exec( "sudo rm -rf " . PHP_CLASS_PATH . "/" . $DatabaseName . "/*" );
 	}
-	echo "\n";
 
 	sleep(3);   //防止缓存文件在清理中出现冲突
 
@@ -46,7 +56,6 @@
 			"TIME" => "\"00:00:00\"",
 			"YEAR" => "\"0000\"",
 		);
-
 		public $dataFieldTypeNumeric = array(
 			//数字
 			"TINYINT" => 0,
@@ -68,78 +77,83 @@
 			//日期
 			"TIMESTAMP" => 0,
 		);
-
 		public $dataFieldTypeSearch = array(
 			"TINYINT" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
-				"_max" => array( "expression" => "<="),
+                "_max" => array( "expression" => "<="),
+                "_not" => array( "expression" => "!="),
 			),
 			"INT" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"DECIMAL" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"FLOAT" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"DATE" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"DATETIME" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"TIMESTAMP" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"TIME" => array(
 				"" => array( "expression" => "="),
 				"_min" => array( "expression" => ">="),
 				"_max" => array( "expression" => "<="),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"CHAR" => array(
 				"" => array( "expression" => "="),
-				"_min" => array( "expression" => ">="),
 				"_like" => array( "expression" => "like", "left" => "%", "right" => "%",),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 			"VARCHAR" => array(
 				"" => array( "expression" => "="),
-				"_min" => array( "expression" => ">="),
 				"_like" => array( "expression" => "like", "left" => "%", "right" => "%",),
-			),
+                "_not" => array( "expression" => "!="),
+            ),
 		);
-
 		function runApp()
 		{
 			$DatabaseDB = new CDatabaseDB();
-			if( !$DatabaseDB -> ConnectMysql() ) {
-				$this -> errorMsg("connect mysql fail");
-				return;
-			}
 
-			//这里是生成操作的数据库的类, 如果多个数据库这里需要调薪
-			$DATABASEARRAY = array(
-				MAINDBData,
-			);
-
-			$tableData = array();
-
+            Global $DataBase;
 			echo "create dir ";
-			foreach( $DATABASEARRAY as $DatabaseName ) {
-				$databasePath = PHP_CLASS_PATH . "/" . $DatabaseName;
+			foreach( $DataBase as $DatabaseName => $MysqlDefine ) {
+			    echo $DatabaseName . " ";
+                $tableData = array();
+
+                $DatabaseDB -> dataConfig( $MysqlDefine );
+                if( !$DatabaseDB -> ConnectMysql() ) {
+                    $this -> errorMsg("connect mysql fail");
+                    return;
+                }
+
+                $databasePath = PHP_CLASS_PATH . "/" . $DatabaseName;
 
 				//重新创建文件夹
 				createDiv( $databasePath );
@@ -408,26 +422,26 @@
 					//ChangePermissions($filePath);
 				}
 
-			}
+                $write_in_file = "";
+                $write_in_file .= "<?php";
+                foreach ($tableData as $key => $value) {
+                    $write_in_file .= "\n\$DBFILEARRAY[ " . $key . " ] = array(";
+                    foreach ($value as $keyItem => $valueItem) {
+                        $write_in_file .= "\n	\"" .$keyItem . "\" => \"" .$valueItem . "\",";
+                    }
+                    $write_in_file .= "\n);";
+
+                    $write_in_file .= "\ninclude_once \"" . $value["filePath"] . "\";";
+                    $write_in_file .= "\n";
+                }
+                $filePath = $databasePath . "/include_all_class.php";
+                $handle = fopen($filePath ,"w+");
+                fwrite($handle, $write_in_file);
+                fclose($handle);
+
+            }
 
 
-			$write_in_file = "";
-			$write_in_file .= "<?php";
-			foreach ($tableData as $key => $value) {
-				$write_in_file .= "\n\$DBFILEARRAY[ " . $key . " ] = array(";
-				foreach ($value as $keyItem => $valueItem) {
-					$write_in_file .= "\n	\"" .$keyItem . "\" => \"" .$valueItem . "\",";
-				}
-				$write_in_file .= "\n);";
-
-				$write_in_file .= "\ninclude_once \"" . $value["filePath"] . "\";";
-				$write_in_file .= "\n";
-			}
-
-			$filePath = PHP_CLASS_PATH . "/include_all_class.php";
-			$handle = fopen($filePath ,"w+");
-			fwrite($handle, $write_in_file);
-			fclose($handle);
 
 			$DatabaseDB -> CloseMysql();
 			echo "\n";

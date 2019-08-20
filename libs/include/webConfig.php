@@ -1,10 +1,14 @@
 <?php
+//每一个工作目录都有自己读取数据库的基础文件
+if ( is_file( DOCUMENT_ROOT."/include/database.php" ) ) {
+    require_once(DOCUMENT_ROOT . "/include/database.php");
+}
 
 #时区设置
 date_default_timezone_set('PRC');
 header("content-type:text/html; charset=utf-8");
 
-if( LandTuDebug==1 )
+if( DebugFlag==1 )
 {
 	@ini_set("display_errors","On");
 	error_reporting(E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | !E_WARNING | E_PARSE | !E_NOTICE);
@@ -13,66 +17,46 @@ if( LandTuDebug==1 )
 	error_reporting(E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | !E_WARNING | E_PARSE | !E_NOTICE);
 }
 
-# 网站目录
-define("LIB_PATH", HOME."/libs");
 define("OP_PATH", HOME."/html");
 define("OPEN_PATH", HOME."/open");
+define("photoPath", SHARE_PATH."/file");
+
+
+# 网站目录
+define("LIB_PATH", HOME."/libs");
 define("SHARE_PATH", HOME."/share");
 define("PHP_CLASS_PATH", HOME."/share/php/class");
 define("REDIS_PATH", HOME."/redis");
 define("ACTIONMQ_PATH", HOME."/actionmq");
 
 
-#图片路径
-define("photoPath", SHARE_PATH."/file");
+# 定义网站各个模块的域名及公共模块用到的通用地址
+define("UserDomain", "http://user.home.liushuojia.com");
+define("ClassDomain", "http://class.home.liushuojia.com");
+
+
+//公共主类需要调用到 UserDomain 的登录验证接口
+define("UserTokenCheck", "http://user.home.liushuojia.com/v1/admin/myself");
 
 
 #开源文件目录
 //请根据服务器进行调整
 define("OPENLIB_PATH", "/home/liushuojia/open_lib");
-define("MAIL_LIB",OPENLIB_PATH . "/PHPMailer_v5.1");
-define("WEIXIN_PATH",OPENLIB_PATH . "/weixin");
-define("SMARTY_LIB",OPENLIB_PATH . "/Smarty-3.1.14/libs");
+define("MAIL_LIB", OPENLIB_PATH . "/PHPMailer_v5.1");
+define("WEIXIN_PATH", OPENLIB_PATH . "/weixin");
+define("SMARTY_LIB", OPENLIB_PATH . "/Smarty-3.1.14/libs");
 
 
 # smarty cache 时间
-if( LandTuDebug!=1 )
+if( DebugFlag!=1 )
 {
 	define("redis_ext_time", 24*60*60);
 }else{
 	define("redis_ext_time", 30*60);
 }
 
-if( LandTuDebug==1 )
-{
-	# 数据库的链接方式
-	define("MysqlHost","192.168.1.30");			#服务器读的服务器	//define("MysqlHost","192.168.1.31");
-	define("MysqlEditHost","192.168.1.30");		#数据库写的服务器
-
-	define("MAINDBData","TUserDB");					#数据库名称
-
-	define("MysqlUser","root");					#用户
-	define("MysqlPasswd","liushuojia");			#密码
-
-}else{
-	# 数据库的链接方式
-	define("MysqlHost","127.0.0.1");			#服务器读的服务器	//define("MysqlHost","192.168.1.31");
-	define("MysqlEditHost","127.0.0.1");		#数据库写的服务器
-
-	define("MAINDBData","TUserDB");					#数据库名称
-
-	define("MysqlUser","root");					#用户
-	define("MysqlPasswd","liushuojia");			#密码
-}
-
-
-# 域名
-define("domain_name","liushuojia.com");
-
-
 #cookie 记录时间长度 1年
 define("cookieTime",60*60*24*30*12 );
-
 
 #附件保存命名文件夹
 define("commonPath",date("Y")."/".date("m")."/".date("d")."/");
@@ -99,11 +83,11 @@ require_once(LIB_PATH."/DBBASE/allBaseDB.class.php");
 require_once(LIB_PATH."/include/ShowApp.class.php");
 
 #网站用户
-if( LandTuDebug==1 )
+if( DebugFlag==1 )
 {
 	define("webUser","nginx");		//列表页面cache时间
 }else{
-	define("webUser","daemon");	//列表页面cache时间
+	define("webUser","daemon");	    //列表页面cache时间
 }
 
 require_once(LIB_PATH."/include/PublicFunction.php");
@@ -113,19 +97,6 @@ require_once(LIB_PATH."/include/convert.class.php");
 //API_KEYWORD
 define("API_KEYWORD","sadfasdfj1212sadlfksajdsadfasd;flkfhsqeuyioweorweyui");
 
-#微信
-define("WEIXINID", "2");				//  默认微信id
-
-if( LandTuDebug==1 )
-{
-	#open url
-	define("OP_URL", "http://html.liushuojia.com");
-	define("API_URL", "http://api.liushuojia.com");
-}else{
-	#open url
-	define("OP_URL", "http://html.liushuojia.com");
-	define("API_URL", "http://api.liushuojia.com");
-}
 
 # 邮件账户
 define("EmailHost","smtp.qq.com");

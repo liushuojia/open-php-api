@@ -19,11 +19,18 @@ if($argc > 1)
 if( substr($WEB_HOME, strlen($WEB_HOME)-1,1  )!="/" )
 	$WEB_HOME .= "/";
 
-require_once($WEB_HOME."/open/include/config.php");
 
 ini_set("memory_limit","1024M");
 ini_set("max_execution_time", "60");
 
+
+require_once($WEB_HOME."/user/include/config.php");
+
+// 模块工作目录
+$workPath = array(
+    "user",
+    "systemArea",
+);
 
 class CScriptsDB extends CRunTime
 {

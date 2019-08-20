@@ -1,0 +1,8 @@
+ 目录文件列表
+    include
+    | - *App.class.php    本域名下的基础类
+    | - config.php          配置文件
+    | - database.php        数据库文件
+    | - route.php           路由文件
+
+模块化设计, 将同一块内容放在同一个域名下, 同一个域名处理一个数据库.
