@@ -26,11 +26,6 @@ ini_set("max_execution_time", "60");
 
 require_once($WEB_HOME."/user/include/config.php");
 
-// 模块工作目录
-$workPath = array(
-    "user",
-    "systemArea",
-);
 
 class CScriptsDB extends CRunTime
 {

@@ -296,12 +296,6 @@
 					$write_in_file .= "\n			return false;";
 					$write_in_file .= "\n";
 
-					$functionName = "\\" . $DatabaseName . "\\" . $table_name . "\\" . "init_data";
-					$write_in_file .= "\n		if( function_exists('" . $functionName ."') )";
-					$write_in_file .= "\n		{";
-					$write_in_file .= "\n			" . $functionName . "(\$objData);";
-					$write_in_file .= "\n		}";
-
 					$write_in_file .= "\n";
 					foreach ($descArray as $key => $val)
 					{
@@ -310,7 +304,16 @@
 								$write_in_file .= "\n		\$objData -> " . $key . "_show = date( \"Y.m.d H:i\",strtotime(\$objData -> " . $key . "));";
 								break;
 							case "text":
-								$write_in_file .= "\n		\$objData -> " . $key . "_show = nl2br( \$objData -> " . $key . ");";
+                                if( substr($key, -1 * strlen("_json"))=="_json" ){
+                                    $write_in_file .= "\n		\$objData -> " . $key . "_show = json_decode( \$objData -> " . $key . ",true);";
+                                    /*
+                                    $write_in_file .= "\n		if( !is_array( \$objData -> " . $key . "_show) ) {";
+                                    $write_in_file .= "\n		    \$objData -> " . $key . "_show = array();";
+                                    $write_in_file .= "\n		}";
+                                    */
+                                }else{
+                                    $write_in_file .= "\n		\$objData -> " . $key . "_show = nl2br( \$objData -> " . $key . ");";
+                                }
 								break;
 							case "int":
 								if( substr($key, -1 * strlen("_time"))=="_time" ){
@@ -320,10 +323,14 @@
 								if( substr($key, -1 * strlen("_date"))=="_date" ){
 									$write_in_file .= "\n		\$objData -> " . $key . "_show = date( \"Y-m-d\", \$objData -> " . $key . ");";
 								}
-
 								break;
 						}
 					}
+                    $functionName = "\\" . $DatabaseName . "\\" . $table_name . "\\" . "init_data";
+                    $write_in_file .= "\n		if( function_exists('" . $functionName ."') )";
+                    $write_in_file .= "\n		{";
+                    $write_in_file .= "\n			" . $functionName . "(\$objData);";
+                    $write_in_file .= "\n		}";
 
 					$write_in_file .= "\n		return true;";
 					$write_in_file .= "\n	}";
@@ -333,14 +340,6 @@
 					$write_in_file .= "\n	{";
 					$write_in_file .= "\n		\$sqlString = \"\";";
 
-
-					$functionName = "\\" . $DatabaseName . "\\" . $table_name . "\\" . "query_string";
-					$write_in_file .= "\n";
-					$write_in_file .= "\n		if( function_exists('" . $functionName ."') )";
-					$write_in_file .= "\n		{";
-					$write_in_file .= "\n			" . $functionName . "(\$sqlString, \$searchKey, \$this);";
-					$write_in_file .= "\n		}";
-					
 
 					foreach($descArray as $descData)
 					{
@@ -371,8 +370,15 @@
 						}
 					}
 
+                    $functionName = "\\" . $DatabaseName . "\\" . $table_name . "\\" . "query_string";
+                    $write_in_file .= "\n";
+                    $write_in_file .= "\n		if( function_exists('" . $functionName ."') )";
+                    $write_in_file .= "\n		{";
+                    $write_in_file .= "\n			" . $functionName . "(\$sqlString, \$searchKey, \$this);";
+                    $write_in_file .= "\n		}";
 
-					$write_in_file .= "\n		if( is_array( \$searchKey['order_by'] ) && count(\$searchKey['order_by'])>0 )";
+
+                    $write_in_file .= "\n		if( is_array( \$searchKey['order_by'] ) && count(\$searchKey['order_by'])>0 )";
 					$write_in_file .= "\n		{";
 					$write_in_file .= "\n			\$orderString = \"\";";
 					$write_in_file .= "\n			foreach( \$searchKey['order_by'] as \$key => \$val )";
@@ -388,6 +394,7 @@
 					//$write_in_file .= "\n				\$orderString .= (\$orderString!='')?',':'';";
 					//$write_in_file .= "\n				\$orderString .= ' `' . \$this -> primaryKey . '` desc';" ;
 					//$write_in_file .= "\n			}";
+
 
 					$write_in_file .= "\n			\$sqlString .= \" order by \" . \$orderString;";
 

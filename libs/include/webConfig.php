@@ -97,6 +97,11 @@ require_once(LIB_PATH."/include/convert.class.php");
 //API_KEYWORD
 define("API_KEYWORD","sadfasdfj1212sadlfksajdsadfasd;flkfhsqeuyioweorweyui");
 
+// 开放放我目录pagePath
+$workPath = array(
+    "user",
+    "systemArea",
+);
 
 # 邮件账户
 define("EmailHost","smtp.qq.com");

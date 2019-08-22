@@ -419,17 +419,17 @@ class CDatabaseDB{
 				$this -> tableNameExtDB -> CreateData( $DataTmpObj );
 			}
 
-			foreach( $DataTmpObj as $nameTmp => $valueTmp ){
+            foreach( $DataTmpObj as $nameTmp => $valueTmp ){
 				if($nameTmp=="PRIMARY_KEY")
 					continue;
 
-				$DataObj -> {$nameTmp} = trim($valueTmp);
+				$DataObj -> {$nameTmp} = $valueTmp;
 
 				#记录一个安全开关， 在更新全部的时候这个没开的话不更新扩展表数据
 				$DataObj -> table_ext_flag = 1;
 			}
-		}
 
+		}
 		return true;
 
 	}

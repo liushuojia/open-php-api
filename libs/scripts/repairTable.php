@@ -2,12 +2,21 @@
 
 	include_once "scritpt-path.php";
 
-	foreach( $DataBase as $MysqlDB )
+    $DataBase = array();
+    foreach( $workPath as $pathName ) {
+        $databaseFile =  HOME . "/" . $pathName . "/include/database.php";
+        if(is_file($databaseFile)){
+            include $databaseFile;
+            $DataBase[ $MysqlDefine["MysqlDatabase"] ] = $MysqlDefine;
+        }
+    }
+
+	foreach( $DataBase as $MysqlDB => $dataArray )
 	{
 		echo "\n";
 		echo "database " . $MysqlDB;
 
-		$MysqlConn = new mysqli( MysqlHost, MysqlUser, MysqlPasswd, $MysqlDB);
+		$MysqlConn = new mysqli( $dataArray["MysqlHost"], $dataArray["MysqlUser"], $dataArray["MysqlPasswd"], $dataArray["MysqlDatabase"]);
 
 		# check connection
 		if ($MysqlConn -> connect_errno)
