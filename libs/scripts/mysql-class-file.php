@@ -142,7 +142,7 @@
 			$DatabaseDB = new CDatabaseDB();
 
             Global $DataBase;
-			echo "create dir ";
+			echo "\ncreate dir ";
 			foreach( $DataBase as $DatabaseName => $MysqlDefine ) {
 			    echo $DatabaseName . " ";
                 $tableData = array();
@@ -162,8 +162,6 @@
 
 				$sqlString = "show tables";
 				$Result = $DatabaseDB -> MysqlConn -> query($sqlString);
-
-				echo $DatabaseName . " ";
 
 				$tableArray = array();
 				while( ( $Row = $Result -> fetch_array() ) != FALSE) {

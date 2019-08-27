@@ -23,6 +23,10 @@ class CSystemAreaTypeListCacheApp extends SystemAraeApp
                 'is_delete' => '0',
                 'order_by' => array('weight' => 'desc'),
             ) );
+
+            $sqlString = "update system_area set area_type_name = (SELECT type_name FROM `system_area_type` where system_area.area_type = system_area_type.type_id)";
+            $this -> system_area_typeDB -> ExcuteSql($sqlString);
+
             $this -> TCloseMysql();
 
             $RedisDB -> set(redisSystemAreaType,$SystemAreaTypeList,redis_ext_time);
