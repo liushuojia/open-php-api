@@ -7,7 +7,9 @@
         可在url里面传递GET的参数
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaTypeUpdateApp extends SystemAraeApp
@@ -47,7 +49,7 @@ class CSystemAreaTypeUpdateApp extends SystemAraeApp
     }
 
     public $DB = array(
-        "system_area_type",
+        "SystemAreaType",
     );
 
 	function RunApp()
@@ -63,7 +65,7 @@ class CSystemAreaTypeUpdateApp extends SystemAraeApp
         }
 
         $this -> editArray["update_time"] = time();
-        if( !$this -> system_area_typeDB -> UpdateDataQuickEditMore($this -> editArray, array(
+        if( !$this -> SystemAreaTypeDB -> UpdateDataQuickEditMore($this -> editArray, array(
             'type_id' => $this -> type_id,
         )) ){
             $this -> showMsg( 422, "更新数据失败,请与网站管理员联系" );

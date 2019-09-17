@@ -9,7 +9,9 @@
 	GET 或者重新定义路由,在path_match里面拿数据
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CAdminOneApp extends UserApp
@@ -27,9 +29,9 @@ class CAdminOneApp extends UserApp
 		return true;
 	}
     public $DB = array(
-        "admin",
-        "login",
-        "weixin_account",
+        "Admin",
+        "Login",
+        "WeixinAccount",
     );
 
 	function RunApp()
@@ -44,7 +46,7 @@ class CAdminOneApp extends UserApp
             return false;
         }
 
-        if( !$this -> adminDB -> SelectOneData($admin, array(
+        if( !$this -> AdminDB -> SelectOneData($admin, array(
             "admin_id" => $this -> admin_id,
         )) ) {
             $this -> showMsg( 404, "查无该账户信息" );
@@ -53,12 +55,12 @@ class CAdminOneApp extends UserApp
         }
 
         $weixinArray = array();
-        $this -> weixin_accountDB -> QueryData($weixinAccountList,0,0);
+        $this -> WeixinAccountDB -> QueryData($weixinAccountList,0,0);
         foreach( $weixinAccountList as $key => $weixinAccount ){
             $weixinArray[ $weixinAccount -> weixin_id ] = $weixinAccount -> weixin_title;
         }
 
-        $this -> loginDB -> QueryData($loginList, 0, 0, array(
+        $this -> LoginDB -> QueryData($loginList, 0, 0, array(
             "admin_id" => $this -> admin_id,
         ) );
 

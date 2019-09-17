@@ -15,7 +15,9 @@
         获取redis微信绑定数据
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CLoginApp extends UserApp
@@ -23,8 +25,8 @@ class CLoginApp extends UserApp
     public $checkRoleFlag = false;
 
     public $DB = array(
-        "login",
-        "admin",
+        "Login",
+        "Admin",
 	);
 
 	public $mobile;
@@ -89,7 +91,7 @@ class CLoginApp extends UserApp
             }
         }
 
-		if(!$this -> adminDB -> SelectOneData($Admin,array(
+		if(!$this -> AdminDB -> SelectOneData($Admin,array(
 			"admin_mobile" => $this -> mobile,
 			"admin_status" => 1,
 			"is_delete" => 0,
@@ -98,12 +100,12 @@ class CLoginApp extends UserApp
 			return false;
 		}
 
-        if( !$this -> loginDB -> SelectOneData($login, array(
+        if( !$this -> LoginDB -> SelectOneData($login, array(
             "open_id" => $loginObj["open_id"],
             "weixin_id" => $loginObj["weixin_id"],
             "is_delete" => 0,   //未删除状态
         ) )){
-            $login = new $this -> loginDB -> tableItemClass;
+            $login = new $this -> LoginDB -> tableItemClass;
             $login -> login_type = 1;
             $login -> open_id = $loginObj["open_id"];
             $login -> weixin_id = $loginObj["weixin_id"];
@@ -117,9 +119,9 @@ class CLoginApp extends UserApp
         $login -> wx_subscribe = $loginObj["subscribe"];
 
         if ($login -> login_id==0) {
-            $this -> loginDB -> CreateData($login);
+            $this -> LoginDB -> CreateData($login);
         }else{
-            $this -> loginDB -> UpdateData($login);
+            $this -> LoginDB -> UpdateData($login);
         }
 
         $editArray = array(
@@ -131,7 +133,7 @@ class CLoginApp extends UserApp
         );
 
 		//手机验证开关
-		$this -> adminDB -> UpdateDataQuickEditMore($editArray, $searchArray);
+		$this -> AdminDB -> UpdateDataQuickEditMore($editArray, $searchArray);
 
 		$encryptMD5Key = $this -> BuildTokenAdmin( $Admin );
 

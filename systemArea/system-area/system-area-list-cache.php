@@ -1,12 +1,14 @@
 <?php
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaTypeListCacheApp extends SystemAraeApp
 {
 	public $DB = array(
-		"system_area",
+		"SystemArea",
 	);
     public $type_id;
     public function CheckInput(&$ErrMsg)
@@ -46,7 +48,7 @@ class CSystemAreaTypeListCacheApp extends SystemAraeApp
                 ),
             );
 
-            $this -> system_areaDB -> QueryData($SystemAreaList, 0, 0, $searchArray );
+            $this -> SystemAreaDB -> QueryData($SystemAreaList, 0, 0, $searchArray );
             $this -> TCloseMysql();
 
             $tempArray = [];

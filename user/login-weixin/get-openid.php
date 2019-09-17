@@ -10,7 +10,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 require_once( LIB_PATH . "/include/TWeixinAction.class.php");
 
@@ -50,7 +52,7 @@ class CGetOpenidApp extends UserApp
     }
 
     public $DB = array(
-        "weixin_account",
+        "WeixinAccount",
     );
 
     function RunApp()
@@ -73,7 +75,7 @@ class CGetOpenidApp extends UserApp
             return ;
         }
 
-        if(!$this -> weixin_accountDB -> SelectOneData($weixin_account, array(
+        if(!$this -> WeixinAccountDB -> SelectOneData($weixin_account, array(
             "weixin_id" => $this -> weixin_id
         ) )){
             $this -> mobileMsg( "公众号已经注销,请与网站部联系 #no found" );

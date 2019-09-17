@@ -70,7 +70,7 @@ $routeArray["admin"] = array(
 		"GET" => "/login/status.php",		//检查页面的token状态
 	),
 	'sendSms' => array(
-		"GET" => "/login/sendSms.php",		//检查页面的token状态
+		"GET" => "/login/sendSms.php",		//发送短信验证码
 	),
     'login' => array(
         "POST" => "/login/login.php",		//检查页面的token状态
@@ -101,3 +101,30 @@ $routeArray["admin"] = array(
 
 );
 
+/*
+ * 链接资源
+ */
+$routeArray["router"] = array(
+    //后端管理页面
+    '' => array(
+        "GET" => "/router/router-list.php",
+        //"PUT" => "/router/router-list-update.php",		// API_PATH 路径下的文件
+        "POST" => "/router/router-create.php",
+    ),
+
+
+
+
+);
+
+$routeArray["routerFolder"] = array(
+    //后端管理页面
+    '' => array(
+        "GET" => "/router-folder/router-folder-list.php",
+        "POST" => "/router-folder/router-folder-create.php",
+    ),
+    '[@folder_name]' => array(
+        "DELETE" => "/router-folder/router-folder-delete.php",
+    ),
+
+);

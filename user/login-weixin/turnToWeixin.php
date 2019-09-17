@@ -10,7 +10,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CTurnToWeixinApp extends UserApp
@@ -37,7 +39,7 @@ class CTurnToWeixinApp extends UserApp
 	}
 
     public $DB = array(
-        "weixin_account",
+        "WeixinAccount",
     );
 	function RunApp()
 	{
@@ -57,7 +59,7 @@ class CTurnToWeixinApp extends UserApp
             return;
         }
 
-        if(!$this -> weixin_accountDB -> SelectOneData($weixin_account, array(
+        if(!$this -> WeixinAccountDB -> SelectOneData($weixin_account, array(
             "weixin_id" => $this -> weixin_id
         ) )){
             $this -> mobileMsg( '服务器发生错误,请与网站部联系' );

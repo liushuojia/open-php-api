@@ -9,7 +9,9 @@
 
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaListApp extends SystemAraeApp
@@ -64,7 +66,7 @@ class CSystemAreaListApp extends SystemAraeApp
 	}
 
 	public $DB = array(
-		"system_area",
+		"SystemArea",
     );
 	function RunApp()
 	{
@@ -97,8 +99,8 @@ class CSystemAreaListApp extends SystemAraeApp
             "area_code" => "asc",
         );
 
-		$this -> system_areaDB -> QueryData($SystemAreaList, $StartPos, $Num, $searchArray );
-		$this -> system_areaDB -> GetNumData($totalNum, $searchArray);
+		$this -> SystemAreaDB -> QueryData($SystemAreaList, $StartPos, $Num, $searchArray );
+		$this -> SystemAreaDB -> GetNumData($totalNum, $searchArray);
 
 		$this -> TCloseMysql();
 

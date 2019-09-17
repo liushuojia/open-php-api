@@ -10,7 +10,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CLoginStatusApp extends UserApp
@@ -38,10 +40,6 @@ class CLoginStatusApp extends UserApp
 
         return true;
     }
-
-    public $DB = array(
-        "weixin_account",
-    );
 
     function RunApp()
     {

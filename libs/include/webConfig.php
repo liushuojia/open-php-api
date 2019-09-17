@@ -31,12 +31,12 @@ define("ACTIONMQ_PATH", HOME."/actionmq");
 
 
 # 定义网站各个模块的域名及公共模块用到的通用地址
-define("UserDomain", "http://user.home.liushuojia.com");
-define("ClassDomain", "http://class.home.liushuojia.com");
-
+define("WEBVersion", "v1");
+define("UserDomain", "http://user.home.liushuojia.com/".WEBVersion);
+define("ClassDomain", "http://class.home.liushuojia.com/".WEBVersion);
 
 //公共主类需要调用到 UserDomain 的登录验证接口
-define("UserTokenCheck", "http://user.home.liushuojia.com/v1/admin/myself");
+define("UserTokenCheck", UserDomain . "/admin/myself");
 
 
 #开源文件目录

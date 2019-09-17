@@ -9,7 +9,9 @@
 
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+	return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaTypeListApp extends SystemAraeApp
@@ -46,7 +48,7 @@ class CSystemAreaTypeListApp extends SystemAraeApp
 	}
 
 	public $DB = array(
-		"system_area_type",
+		"SystemAreaType",
 	);
 	function RunApp()
 	{
@@ -66,8 +68,8 @@ class CSystemAreaTypeListApp extends SystemAraeApp
 		$StartPos = ($this -> page_id - 1) * $this -> one_page_num;
 		$Num = $this -> one_page_num;
 
-		$this -> system_area_typeDB -> QueryData($SystemAreaTypeList, $StartPos, $Num, $searchArray );
-		$this -> system_area_typeDB -> GetNumData($totalNum, $searchArray);
+		$this -> SystemAreaTypeDB -> QueryData($SystemAreaTypeList, $StartPos, $Num, $searchArray );
+		$this -> SystemAreaTypeDB -> GetNumData($totalNum, $searchArray);
 
 		$this -> TCloseMysql();
 

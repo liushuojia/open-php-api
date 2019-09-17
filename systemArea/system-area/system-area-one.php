@@ -9,7 +9,9 @@
 	GET 或者重新定义路由,在path_match里面拿数据
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaOneApp extends SystemAraeApp
@@ -28,8 +30,7 @@ class CSystemAreaOneApp extends SystemAraeApp
 		return true;
 	}
     public $DB = array(
-        "system_area",
-        "system_area_type",
+        "SystemArea",
     );
 
 	function RunApp()
@@ -44,7 +45,7 @@ class CSystemAreaOneApp extends SystemAraeApp
             return ;
         }
 
-        if( !$this -> system_areaDB -> SelectOneData($systemArea, array(
+        if( !$this -> SystemAreaDB -> SelectOneData($systemArea, array(
             "area_id" => $this -> area_id,
         )) ) {
             $this -> showMsg( 404, "查无数据" );
@@ -58,7 +59,7 @@ class CSystemAreaOneApp extends SystemAraeApp
         $index = 1;
         $area_code = substr( $systemArea -> area_code, 0, ($index++) * systemAreaCodeLength );
         while( $area_code != $systemArea -> area_code ) {
-            $this -> system_areaDB -> SelectOneData($systemAreaParent, array(
+            $this -> SystemAreaDB -> SelectOneData($systemAreaParent, array(
                 "area_code" => $area_code,
                 "area_type" => $systemArea -> area_type,
             ));
@@ -66,7 +67,7 @@ class CSystemAreaOneApp extends SystemAraeApp
             $area_code = substr( $systemArea -> area_code, 0, ($index++) * systemAreaCodeLength );
         }
 
-        $this -> system_areaDB -> QueryData($childrenSystemAreaArray, 0, 0, array(
+        $this -> SystemAreaDB -> QueryData($childrenSystemAreaArray, 0, 0, array(
             "status" => 1,
             "is_delete" => 0,
             "area_type" => $systemArea -> area_type,

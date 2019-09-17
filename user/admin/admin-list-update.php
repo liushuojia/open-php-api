@@ -8,7 +8,9 @@
 		可在url里面传递GET的参数
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+	return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CAdminListUpdateApp extends UserApp
@@ -62,7 +64,7 @@ class CAdminListUpdateApp extends UserApp
 	}
 
 	public $DB = array(
-		"admin",
+		"Admin",
 	);
 	function RunApp()
 	{
@@ -77,7 +79,7 @@ class CAdminListUpdateApp extends UserApp
 		}
 
         $this -> editArray["update_time"] = time();
-		$this -> adminDB -> UpdateDataQuickEditMore($this -> editArray, array(
+		$this -> AdminDB -> UpdateDataQuickEditMore($this -> editArray, array(
 			"admin_id_array" => $this -> admin_id_array,
 		));
 

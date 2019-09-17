@@ -1,7 +1,7 @@
 <?php
 
 //
-namespace TUserDB\admin;
+namespace TUserDB\Admin;
 //空间命名必须是数据库名称
 function init_data($obj){
 

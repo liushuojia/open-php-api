@@ -13,7 +13,9 @@
 			verify  账号加密字符串
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CCheckTokenApp extends UserApp

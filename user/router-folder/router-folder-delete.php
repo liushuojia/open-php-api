@@ -12,26 +12,22 @@ if( !defined("DOCUMENT_ROOT") ){
 }
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
-class CLoginDeleteApp extends UserApp
+class CRouterFolderDeleteApp extends UserApp
 {
-    public $admin_id;
+    public $folder_name;
     public function CheckInput(&$ErrMsg)
     {
         $ErrMsg = "参数传递错误";
         Global $routeMatchData;
 
-        $this -> admin_id = (int) ($routeMatchData["params"]["admin_id"]);
-        if( $this -> admin_id<=0 )
-            return false;
-
-        $this -> login_id = (int) ($routeMatchData["params"]["login_id"]);
-        if( $this -> login_id<=0 )
+        $this -> folder_name = trim($routeMatchData["params"]["folder_name"]);
+        if( $this -> folder_name=='')
             return false;
 
         return true;
     }
     public $DB = array(
-        "Login",
+        "RouterFolder",
     );
 
 	function RunApp()
@@ -46,21 +42,19 @@ class CLoginDeleteApp extends UserApp
             return ;
         }
 
-
-        if( !$this -> LoginDB -> DeleteData(array(
-            "admin_id" => $this -> admin_id,
-            "login_id" => $this -> login_id,
+        if( !$this -> RouterFolderDB -> DeleteData( array(
+            'folder_name' => $this -> folder_name,
         )) ){
             $this -> showMsg( 422, "删除失败,请与网站管理员联系" );
             $this -> TCloseMysql();
             return;
         }
 
-        $this -> showMsg( 204, "删除成功");
+        $this -> showMsg( 200, "删除成功");
 		return;
 	}
 }
 
-$App = new CLoginDeleteApp;
+$App = new CRouterFolderDeleteApp;
 $App -> RunApp();
 return;

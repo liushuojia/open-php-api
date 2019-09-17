@@ -8,7 +8,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaCreateApp extends SystemAraeApp
@@ -41,7 +43,7 @@ class CSystemAreaCreateApp extends SystemAraeApp
 	}
 
     public $DB = array(
-        "system_area_type",
+        "SystemAreaType",
     );
 
 	function RunApp()
@@ -57,13 +59,13 @@ class CSystemAreaCreateApp extends SystemAraeApp
             return ;
         }
 
-        $system_area_type = new $this -> system_area_typeDB -> tableItemClass;
+        $system_area_type = new $this -> SystemAreaTypeDB -> tableItemClass;
         $system_area_type -> type_name = $this -> editArray['type_name'];
         $system_area_type -> status = $this -> editArray['status'];
         $system_area_type -> is_delete = $this -> editArray['is_delete'];
         $system_area_type -> weight = $this -> editArray['weight'];
 
-        if( !$this -> system_area_typeDB -> CreateData($system_area_type) ) {
+        if( !$this -> SystemAreaTypeDB -> CreateData($system_area_type) ) {
             $this -> showMsg( 422, "创建数据失败,请与网站管理员联系" );
             $this -> TCloseMysql();
             return;

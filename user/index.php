@@ -1,6 +1,6 @@
 <?php
 
-require_once("../include/config.php");
+require_once("include/config.php");
 require_once( LIB_PATH . "/include/route.class.php");
 
 class CIndexApp extends routeApp

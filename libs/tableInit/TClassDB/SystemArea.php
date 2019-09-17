@@ -1,6 +1,6 @@
 <?php
 
-namespace TClassDB\system_area;
+namespace TClassDB\SystemArea;
 //空间命名必须是数据库名称
 
 function init_data($obj){

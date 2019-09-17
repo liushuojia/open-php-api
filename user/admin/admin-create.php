@@ -8,7 +8,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CAdminCreateApp extends UserApp
@@ -73,7 +75,7 @@ class CAdminCreateApp extends UserApp
 	}
 
     public $DB = array(
-        "admin",
+        "Admin",
     );
 
 	function RunApp()
@@ -92,7 +94,7 @@ class CAdminCreateApp extends UserApp
         $searchArray = array(
             "name_en" => $this -> postArray[ "name_en" ],
         );
-        $this -> adminDB -> GetNumData($totalNum, $searchArray);
+        $this -> AdminDB -> GetNumData($totalNum, $searchArray);
         if( $totalNum>0 ){
             $this -> showMsg( 400, "您输入的英文名字已存在,请重新输入" );
             $this -> TCloseMysql();
@@ -101,7 +103,7 @@ class CAdminCreateApp extends UserApp
         $searchArray = array(
             "admin_mobile" => $this -> postArray[ "admin_mobile" ],
         );
-        $this -> adminDB -> GetNumData($totalNum, $searchArray);
+        $this -> AdminDB -> GetNumData($totalNum, $searchArray);
         if( $totalNum>0 ){
             $this -> showMsg( 400, "您输入的手机号码已存在,请重新输入" );
             $this -> TCloseMysql();
@@ -110,7 +112,7 @@ class CAdminCreateApp extends UserApp
 
         $this -> postArray[ "admin_verify" ] = strtoupper( md5( random(32) ) );
 
-        $admin = new $this -> adminDB -> tableItemClass;
+        $admin = new $this -> AdminDB -> tableItemClass;
         $admin -> create_time = time();
         $admin -> update_time = time();
         $admin -> create_admin_id = $this -> tokenUser -> admin_id;
@@ -121,7 +123,7 @@ class CAdminCreateApp extends UserApp
             $admin -> {$key} = $val;
         }
 
-        if( !$this -> adminDB -> CreateData($admin) ) {
+        if( !$this -> AdminDB -> CreateData($admin) ) {
             $this -> showMsg( 422, "创建后台账号失败,请与网站管理员联系" );
             $this -> TCloseMysql();
             return;

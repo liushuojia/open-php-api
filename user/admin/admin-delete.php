@@ -7,7 +7,9 @@
         可在url里面传递GET的参数
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CAdminDeleteApp extends UserApp
@@ -25,7 +27,7 @@ class CAdminDeleteApp extends UserApp
         return true;
     }
     public $DB = array(
-        "admin",
+        "Admin",
     );
 
 	function RunApp()
@@ -40,7 +42,7 @@ class CAdminDeleteApp extends UserApp
             return ;
         }
 
-        if( !$this -> adminDB -> UpdateDataQuickEditMore(array(
+        if( !$this -> AdminDB -> UpdateDataQuickEditMore(array(
             "is_delete" => 1,
         ), array(
             'admin_id' => $this -> admin_id,

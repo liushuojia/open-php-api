@@ -42,22 +42,22 @@ class TNewWeixinDB extends CHttpCurlDataDB
 		{
 			Global $MysqlDefine;
 
-		    $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\Cweixin_accountDB";
+		    $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\CWeixinAccountDB";
             $this -> WeixinAccountDB  = new $className();
             if(!$this -> WeixinAccountDB -> ConnectMysql())
                 return false;
 
-            $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\Cweixin_menuDB";
+            $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\CWeixinMenuDB";
             $this -> WeixinMenuDB  = new $className();
             if(!$this -> WeixinMenuDB -> ConnectMysql())
                 return false;
 
-            $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\Cweixin_key_textDB";
+            $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\CWeixinKeyTextDB";
             $this -> WeixinKeyTextDB  = new $className();
             if(!$this -> WeixinKeyTextDB -> ConnectMysql())
                 return false;
 
-            $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\Cweixin_img_contentDB";
+            $className = "\\" . $MysqlDefine["MysqlDatabase"] . "\\CWeixinImgContentDB";
             $this -> WeixinImgContentDB  = new $className();
             if(!$this -> WeixinImgContentDB -> ConnectMysql())
                 return false;

@@ -1,6 +1,8 @@
 <?php
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaTypeListCacheDeleteApp extends SystemAraeApp

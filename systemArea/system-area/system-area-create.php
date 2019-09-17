@@ -8,7 +8,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( OPEN_PATH . "/include/apiApp.class.php");
 
 class CSystemAreaTypeCreateApp extends ApiApp
@@ -51,8 +53,8 @@ class CSystemAreaTypeCreateApp extends ApiApp
 	}
 
     public $DB = array(
-        "system_area",
-        "system_area_type",
+        "SystemArea",
+        "SystemAreaType",
     );
 
 	function RunApp()
@@ -68,7 +70,7 @@ class CSystemAreaTypeCreateApp extends ApiApp
             return ;
         }
 
-        if( !$this -> system_area_typeDB -> SelectOneData($system_area_type, array(
+        if( !$this -> SystemAreaTypeDB -> SelectOneData($system_area_type, array(
             "type_id" => $this -> editArray["area_type"],
             "status" => 1,
             "is_delete" => 0,
@@ -78,7 +80,7 @@ class CSystemAreaTypeCreateApp extends ApiApp
             return;
         }
 
-        if( !$this -> system_areaDB -> SelectOneData($system_area, array(
+        if( !$this -> SystemAreaDB -> SelectOneData($system_area, array(
             "type_id" => $this -> editArray["area_type"],
             "area_code" => $this -> editArray["parent_area_code"],
             "status" => 1,
@@ -89,7 +91,7 @@ class CSystemAreaTypeCreateApp extends ApiApp
             return;
         }
 
-        $this -> system_areaDB -> QueryData($systemAreaArray, 0, 0 ,array(
+        $this -> SystemAreaDB -> QueryData($systemAreaArray, 0, 0 ,array(
             "type_id" => $this -> editArray["area_type"],
             "area_code_left_like" => $this -> editArray["parent_area_code"],
             "area_code_len" => strlen($this -> editArray["parent_area_code"])+systemAreaCodeLength,
@@ -118,7 +120,7 @@ class CSystemAreaTypeCreateApp extends ApiApp
         $this -> editArray["area_code"] = $area_code;
 
         // 数据准备
-        $system_area = new $this -> system_areaDB -> tableItemClass;
+        $system_area = new $this -> SystemAreaDB -> tableItemClass;
         $system_area -> area_name = $this -> editArray['area_name'];
         $system_area -> area_type = $system_area_type -> type_id;
         $system_area -> area_type_name = $system_area_type -> type_name;
@@ -130,7 +132,7 @@ class CSystemAreaTypeCreateApp extends ApiApp
         $system_area -> create_admin_id = $this -> tokenUser -> admin_id;
         $system_area -> create_realname = $this -> tokenUser -> realname;
         
-        if( !$this -> system_areaDB -> CreateData($system_area) ) {
+        if( !$this -> SystemAreaDB -> CreateData($system_area) ) {
             $this -> showMsg( 422, "创建数据失败,请与网站管理员联系" );
             $this -> TCloseMysql();
             return;

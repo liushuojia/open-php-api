@@ -1,12 +1,14 @@
 <?php
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaTypeListCacheApp extends SystemAraeApp
 {
 	public $DB = array(
-		"system_area_type",
+		"SystemAreaType",
 	);
 	function RunApp()
 	{
@@ -18,14 +20,14 @@ class CSystemAreaTypeListCacheApp extends SystemAraeApp
                 return ;
             }
 
-            $this -> system_area_typeDB -> QueryData($SystemAreaTypeList, 0, 0, array(
+            $this -> SystemAreaTypeDB -> QueryData($SystemAreaTypeList, 0, 0, array(
                 'status' => '1',
                 'is_delete' => '0',
                 'order_by' => array('weight' => 'desc'),
             ) );
 
-            $sqlString = "update system_area set area_type_name = (SELECT type_name FROM `system_area_type` where system_area.area_type = system_area_type.type_id)";
-            $this -> system_area_typeDB -> ExcuteSql($sqlString);
+            $sqlString = "update SystemArea set area_type_name = (SELECT type_name FROM `SystemAreaType` where SystemArea.area_type = SystemAreaType.type_id)";
+            $this -> SystemAreaTypeDB -> ExcuteSql($sqlString);
 
             $this -> TCloseMysql();
 

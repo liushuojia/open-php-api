@@ -7,7 +7,6 @@
 
 	获取list数据, 使用的是get方式获取数据
 
-
 */
 
 if( !defined("DOCUMENT_ROOT") ){
@@ -15,10 +14,12 @@ if( !defined("DOCUMENT_ROOT") ){
 }
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
-class CAdminListApp extends UserApp
+class CRouterListApp extends UserApp
 {
 	public $searchArray = array();
-	public function CheckInput(&$ErrMsg)
+    public $page_id;
+    public $one_page_num;
+    public function CheckInput(&$ErrMsg)
 	{
 		$ErrMsg = "参数传递错误";
 		Global $routeMatchData;
@@ -26,16 +27,21 @@ class CAdminListApp extends UserApp
 		if( isset($_GET["search_key"]) && $_GET["search_key"]!="")
 			$this -> searchArray["search_key"] = trim($_GET["search_key"]);
 
-		if( isset($_GET["admin_status"]) && is_numeric($_GET["admin_status"]))
-			$this -> searchArray["admin_status"] = (int)($_GET["admin_status"]);
+        if( isset($_GET["folder_like"]) && $_GET["folder_like"]!="")
+            $this -> searchArray["folder_like"] = trim($_GET["folder_like"]);
 
-		if( isset($_GET["is_delete"]) && is_numeric($_GET["is_delete"]))
-			$this -> searchArray["is_delete"] = (int)($_GET["is_delete"]);
+        if( isset($_GET["area_code"]) && $_GET["area_code"]!="")
+            $this -> searchArray["area_code"] = trim($_GET["area_code"]);
+
+        if( isset($_GET["status"]) && is_numeric($_GET["status"]))
+            $this -> searchArray["status"] = (int)($_GET["status"]);
+
+        if( isset($_GET["is_delete"]) && is_numeric($_GET["is_delete"]))
+            $this -> searchArray["is_delete"] = (int)($_GET["is_delete"]);
 
         if( is_array($_GET["order_by"]) && count($_GET["order_by"])>0){
             $this -> searchArray["order_by"] = ($_GET["order_by"]);
         }
-
         $this -> page_id = (int)($_GET["page_id"]);
 		$this -> one_page_num = (int)($_GET["one_page_num"]);
 
@@ -49,7 +55,7 @@ class CAdminListApp extends UserApp
 	}
 
 	public $DB = array(
-		"Admin",
+		"Router",
 	);
 	function RunApp()
 	{
@@ -68,13 +74,13 @@ class CAdminListApp extends UserApp
 		$StartPos = ($this -> page_id - 1) * $this -> one_page_num;
 		$Num = $this -> one_page_num;
 
-		$this -> AdminDB -> QueryData($AdminItemList, $StartPos, $Num, $searchArray );
-		$this -> AdminDB -> GetNumData($totalNum, $searchArray);
+		$this -> RouterDB -> QueryData($RouterItemList, $StartPos, $Num, $searchArray );
+		$this -> RouterDB -> GetNumData($totalNum, $searchArray);
 
 		$this -> TCloseMysql();
 
 		$this -> showMsg( 200,  "OK", array(
-			"content" => $AdminItemList,
+			"content" => $RouterItemList,
 			"page" => array(
 				"page_id" => $this -> page_id,
 				"one_page_num" => $this -> one_page_num,
@@ -87,6 +93,6 @@ class CAdminListApp extends UserApp
 	}
 }
 
-$App = new CAdminListApp;
+$App = new CRouterListApp;
 $App -> RunApp();
 return;

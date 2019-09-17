@@ -5,7 +5,9 @@
 
 */
 
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CAdminOneApp extends UserApp
@@ -16,7 +18,7 @@ class CAdminOneApp extends UserApp
     function CheckToken() {return true;}
 
     public $DB = array(
-        "admin",
+        "Admin",
     );
 	function RunApp()
 	{
@@ -44,7 +46,7 @@ class CAdminOneApp extends UserApp
         }
 
         $admin_id = $obj -> stringToId($tmp[0]);
-        if(!$this -> adminDB -> SelectOneData($this -> tokenUser,array(
+        if(!$this -> AdminDB -> SelectOneData($this -> tokenUser,array(
             "admin_id" => $admin_id,
             "admin_status" => 1,
             "is_delete" => 0,

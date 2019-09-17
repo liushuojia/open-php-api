@@ -7,7 +7,9 @@
         可在url里面传递GET的参数
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CAdminUpdateApp extends UserApp
@@ -93,7 +95,7 @@ class CAdminUpdateApp extends UserApp
     }
 
     public $DB = array(
-        "admin",
+        "Admin",
     );
 
 	function RunApp()
@@ -113,7 +115,7 @@ class CAdminUpdateApp extends UserApp
                 "name_en" => $this -> editArray[ "name_en" ],
                 "not_admin_id" => $this -> admin_id,
             );
-            $this -> adminDB -> GetNumData($totalNum, $searchArray);
+            $this -> AdminDB -> GetNumData($totalNum, $searchArray);
             if( $totalNum>0 ){
                 $this -> showMsg( 400, "您输入的英文名字已存在,请重新输入" );
                 $this -> TCloseMysql();
@@ -126,7 +128,7 @@ class CAdminUpdateApp extends UserApp
                 "admin_mobile" => $this -> editArray[ "admin_mobile" ],
                 "not_admin_id" => $this -> admin_id,
             );
-            $this -> adminDB -> GetNumData($totalNum, $searchArray);
+            $this -> AdminDB -> GetNumData($totalNum, $searchArray);
             if( $totalNum>0 ){
                 $this -> showMsg( 400, "您输入的手机号码已存在,请重新输入" );
                 $this -> TCloseMysql();
@@ -135,7 +137,7 @@ class CAdminUpdateApp extends UserApp
         }
 
         $this -> editArray["update_time"] = time();
-        if( !$this -> adminDB -> UpdateDataQuickEditMore($this -> editArray, array(
+        if( !$this -> AdminDB -> UpdateDataQuickEditMore($this -> editArray, array(
             'admin_id' => $this -> admin_id,
         )) ){
             $this -> showMsg( 422, "更新数据失败,请与网站管理员联系" );

@@ -13,7 +13,9 @@
 			verify  账号加密字符串
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+	return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CSendSmsApp extends UserApp
@@ -21,7 +23,7 @@ class CSendSmsApp extends UserApp
     public $checkRoleFlag = false;
 
     public $DB = array(
-		"admin",
+		"Admin",
 	);
 	public function CheckInput(&$ErrMsg)
 	{
@@ -51,7 +53,7 @@ class CSendSmsApp extends UserApp
 			return ;
 		}
 
-		if(!$this -> adminDB -> SelectOneData($Admin,array(
+		if(!$this -> AdminDB -> SelectOneData($Admin,array(
 			"admin_mobile" => $this -> mobile,
 			"admin_status" => 1,
 			"is_delete" => 0,

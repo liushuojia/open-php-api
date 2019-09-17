@@ -7,7 +7,9 @@
         可在url里面传递GET的参数
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/systemAraeApp.class.php");
 
 class CSystemAreaTypeDeleteApp extends SystemAraeApp
@@ -25,7 +27,7 @@ class CSystemAreaTypeDeleteApp extends SystemAraeApp
         return true;
     }
     public $DB = array(
-        "system_area_type",
+        "SystemAreaType",
     );
 
 	function RunApp()
@@ -40,7 +42,7 @@ class CSystemAreaTypeDeleteApp extends SystemAraeApp
             return ;
         }
 
-        if( !$this -> system_area_typeDB -> UpdateDataQuickEditMore(array(
+        if( !$this -> SystemAreaTypeDB -> UpdateDataQuickEditMore(array(
             "is_delete" => 1,
         ), array(
             'type_id' => $this -> type_id,

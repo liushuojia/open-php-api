@@ -92,6 +92,40 @@ class ShowApp extends CRunTime
         return $UID;
     }
 
+    // 接口直接传递数据
+    function curlSendData( $url, &$returnData = array(), $data = array() ) {
+
+        $HttpCurlDataDB = new CHttpCurlDataDB();
+        $HttpCurlDataDB -> headerMsg["token"] = trim($_SERVER["HTTP_TOKEN"]);
+        $HttpCurlDataDB -> headerMsg["User-Agent"] = trim($_SERVER["HTTP_USER_AGENT"]);
+        $HttpCurlDataDB -> init( $url );
+        foreach ($data as $key => $val) {
+            $HttpCurlDataDB -> {$key} = $val;
+        }
+
+        if( ! $HttpCurlDataDB -> sendHeader() ){
+            $returnData = array(
+                "flag" => 1,
+                "msg" => "网络错误, 发送数据包出现错误",
+            );
+            return false;
+        }
+
+        $returnData = json_decode($HttpCurlDataDB -> returnHtmlContent,true);
+        if( !is_array($returnData) || count($returnData)==0 ){
+            $returnData = array(
+                "flag" => 1,
+                "msg" => "服务器返回数据错误 #空数据",
+            );
+            return false;
+        }
+
+        if( $returnData["flag"]!=0 ){
+            return false;
+        }
+
+        return true;
+    }
     // 检查token是否有效
     function CheckToken() {
         //判断UID是否合法,及用户是否已经登录, 这里根据redis去获取admin, 如果获取不到需要api到用户域名判断
@@ -127,22 +161,9 @@ class ShowApp extends CRunTime
                 if( !$this -> tokenUser = $RedisDB -> get($redisAdminKey)  ) {
 
                     //redis 获取不到数据, 需要api到用户中心判断
-                    $HttpCurlDataDB = new CHttpCurlDataDB();
-                    $HttpCurlDataDB -> headerMsg["token"] = $HTTP_TOKEN;
-                    $HttpCurlDataDB -> headerMsg["User-Agent"] = $HTTP_USER_AGENT;
-                    $HttpCurlDataDB -> init( UserTokenCheck );
-                    if( ! $HttpCurlDataDB ->  sendHeader() ){
-                        if( ! $HttpCurlDataDB ->  sendHeader() ){
-                            return false;
-                        }
+                    if( !$this -> curlSendData( UserTokenCheck, $returnData ) ){
+                        return false;
                     }
-
-                    $returnData = json_decode($HttpCurlDataDB -> returnHtmlContent,true);
-                    if( !is_array($returnData) || count($returnData)==0 )
-                        return false;
-
-                    if( $returnData["flag"]!=0 )
-                        return false;
 
                     $this -> tokenUser = $returnData["data"];
                 }

@@ -9,7 +9,9 @@
 	GET 或者重新定义路由,在$routeMatchData里面拿数据
 
 */
-require_once("../include/config.php");
+if( !defined("DOCUMENT_ROOT") ){
+    return;
+}
 require_once( DOCUMENT_ROOT . "/include/userApp.class.php");
 
 class CGetOpenidApp extends UserApp
@@ -46,9 +48,9 @@ class CGetOpenidApp extends UserApp
     }
 
     public $DB = array(
-        "weixin_account",
-        "login",
-        "admin",
+        "WeixinAccount",
+        "Login",
+        "Admin",
     );
 
     function RunApp()
@@ -63,7 +65,7 @@ class CGetOpenidApp extends UserApp
             return ;
         }
 
-        if(!$this -> weixin_accountDB -> SelectOneData($weixin_account, array(
+        if(!$this -> WeixinAccountDB -> SelectOneData($weixin_account, array(
             "weixin_id" => $this -> getData["weixin_id"]
         ) )){
             $this -> mobileMsg( "公众号已经注销,请与网站部联系 #no found" );
@@ -71,12 +73,12 @@ class CGetOpenidApp extends UserApp
             return;
         }
 
-        if( !$this -> loginDB -> SelectOneData($login, array(
+        if( !$this -> LoginDB -> SelectOneData($login, array(
             "open_id" => $this -> getData["open_id"],
             "weixin_id" => $this -> getData["weixin_id"],
             "is_delete" => 0,   //未删除状态
         ) )){
-            $login = new $this -> loginDB -> tableItemClass;
+            $login = new $this -> LoginDB -> tableItemClass;
             $login -> login_type = 1;
             $login -> open_id = $this -> getData["open_id"];
             $login -> weixin_id = $this -> getData["weixin_id"];
@@ -102,7 +104,7 @@ class CGetOpenidApp extends UserApp
                     //已经绑定用户, 获取账号情况
                     $this -> getData["check_msg"] = "登录成功";
 
-                    if(!$this -> adminDB -> SelectOneData($Admin,array(
+                    if(!$this -> AdminDB -> SelectOneData($Admin,array(
                         "admin_id" => $login -> admin_id,
                         "admin_status" => 1,
                         "is_delete" => 0,
@@ -117,7 +119,7 @@ class CGetOpenidApp extends UserApp
                     $searchArray = array(
                         "admin_id" => $Admin -> admin_id,
                     );
-                    $this -> adminDB -> UpdateDataQuickEditMore($editArray, $searchArray);
+                    $this -> AdminDB -> UpdateDataQuickEditMore($editArray, $searchArray);
 
                     $encryptMD5Key = $this -> BuildTokenAdmin( $Admin, array(
                         "userAgent" => $this -> getData["userAgent"],
@@ -132,7 +134,7 @@ class CGetOpenidApp extends UserApp
                 }
 
                 if ($login -> login_id==0) {
-                    $this -> loginDB -> CreateData($login);
+                    $this -> LoginDB -> CreateData($login);
                 }
 
                 $RedisDB = new TRedisDB();

@@ -75,6 +75,9 @@ class CDatabaseDB{
 			}
 			#utf8
 			$this -> MysqlEditConn -> set_charset("utf8");
+
+			//数据库宽松模式
+            //$this -> ExcuteSql( "SET sql_mode=''" );
 		}
 		return true;
 	}
