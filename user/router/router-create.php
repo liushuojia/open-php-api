@@ -45,7 +45,6 @@ class CRouterCreateApp extends UserApp
 
     public $DB = array(
         "Router",
-        "RouterFolder",
     );
 
 	function RunApp()
@@ -84,16 +83,6 @@ class CRouterCreateApp extends UserApp
                 "folder_name" => $this -> postArray[ "folder" ],
             ) ),
         ) );
-
-        $searchArray = array(
-            "folder_name" => $this -> postArray[ "folder" ],
-        );
-        $this -> RouterFolderDB -> GetNumData($totalNum, $searchArray);
-        if( $totalNum==0 ){
-            $RouterFolder = new $this -> RouterFolderDB -> tableItemClass;
-            $RouterFolder -> folder_name = $this -> postArray[ "folder" ];
-            $this -> RouterFolderDB -> CreateData($RouterFolder);
-        }
 
         $Router = new $this -> RouterDB -> tableItemClass;
         $Router -> create_time = time();

@@ -108,11 +108,15 @@ $routeArray["router"] = array(
     //后端管理页面
     '' => array(
         "GET" => "/router/router-list.php",
-        //"PUT" => "/router/router-list-update.php",		// API_PATH 路径下的文件
         "POST" => "/router/router-create.php",
     ),
 
-
+    '[#router_id]' => array(
+        // 处理单个数据
+        "GET" => "/router/router-one.php",
+        "PUT" => "/router/router-update.php",
+        "DELETE" => "/router/router-delete.php",
+    ),
 
 
 );
